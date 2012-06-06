@@ -79,22 +79,7 @@ describe UsersController , "GET new" do
 	
 end
 
-describe UsersController , "GET edit" do
-	before(:each) do
-		@user = mock_model(User)
-		session[:user_id]='1'
-		
-	end
-	it "redirect_to to_do_lists_path if invalid id" do
-		get :edit, :id => '537'
-		@user.should redirect_to(to_do_lists_path)
-	end
-	
-#	it "renders the new user page" do
-#		@user.should render_template("new")
-#	end
-	
-end
+
 
 
 

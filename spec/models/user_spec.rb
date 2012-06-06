@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe User	do
 	before(:each) do
-		@user = User.new(:first_name => 'a', :last_name  => 'b', :user_name => 'abcdefs', :email_id => 'abcgdh', :password => '782163782163871')
+		@user = User.new(:first_name => 'a', :last_name  => 'b', :user_name => 'abcdefs', :email_id => 'shubham_mait89@yahoo.com', :password => '782163782163871')
 		
 	end
 	it "is valid with valid attributes" do

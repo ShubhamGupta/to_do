@@ -1,4 +1,5 @@
-<%= form_for([@to_do_list,@to_do_item]) do |f| %>
+#<%= form_for([@to_do_list,@to_do_item]) do |f| %>
+
   <% if @to_do_item.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@to_do_item.errors.count, "error") %> prohibited this to_do_item from being saved:</h2>
@@ -32,6 +33,6 @@
 		<%= time_select :to_do_item, :remind_at, :prompt => {:hour => 'Choose hour', :minute => 'Choose minute', :second => 'Choose seconds'} %>
 		</div>
   <div class="actions">
-    <%= link_to f.submit %>
+    <%= f.submit %>
   </div>
 <% end %>

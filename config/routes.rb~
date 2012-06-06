@@ -1,6 +1,6 @@
 ToDo::Application.routes.draw do
 	root :to => 'to_do_lists#index'
-  resource :user
+  resources :user
 	resources :to_do_lists do
   	resources :to_do_items
   end

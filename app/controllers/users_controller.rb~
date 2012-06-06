@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     	@user = User.find(params[:id])
     rescue ActiveRecord::RecordNotFound
     	@user = current_user
-    	redirect_to controller: "to_do_lists", action: 'index', id: @user.id
+    	redirect_to controller: "to_do_lists", action: 'index'#, id: @user.id
     end
     	
   end
@@ -44,6 +44,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
       session[:user_id] = @user.id
+      Notifier.confirmation_email(@user).deliver
         format.html { redirect_to to_do_lists_path}
         format.json { render json: @user, status: :created, location: @user }
       else

@@ -3,3 +3,15 @@ require File.expand_path('../application', __FILE__)
 
 # Initialize the rails application
 ToDo::Application.initialize!
+#Add below block for gmail configuration
+ToDo::Application.configure do
+	config.action_mailer.delivery_method = :smtp
+	config.action_mailer.smtp_settings = {
+		address: "smtp.gmail.com",
+		port: 587,
+		domain: 'domain.of.sender.net',
+		user_name: 'sgupta.89cse@gmail.com',
+		password: "proxywar@gmail",
+		enable_starttls_auto: true
+	}
+end

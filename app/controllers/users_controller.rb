@@ -44,6 +44,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
       session[:user_id] = @user.id
+      Notifier.registered(@user).deliver
         format.html { redirect_to to_do_lists_path}
         format.json { render json: @user, status: :created, location: @user }
       else

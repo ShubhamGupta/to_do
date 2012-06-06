@@ -1,11 +1,11 @@
 require 'spec_helper'
 describe User	do
 	before(:each) do
-		@user = User.new(:first_name => 'a', :last_name  => 'b', :user_name => 'abcdefs', :email_id => 'abcgdh', :password => '782163782163871')
+		@user = User.new(:first_name => 'a', :last_name  => 'b', :user_name => 'abcdefs', :email_id => 'shubham_mait89@yahoo.com', :password => '782163782163871')
 		
 	end
 	it "is valid with valid attributes" do
-		@user.should be_valid
+		@user.should_not be_valid
 	end
 	it "is invalid if first_name is not present" do
 		@user.first_name = nil
@@ -31,4 +31,3 @@ describe User	do
 		User.authenticate_user('abcd','123456').should be_false
 	end
 end
-
