@@ -1,0 +1,37 @@
+<%= form_for([@to_do_list,@to_do_item]) do |f| %>
+  <% if @to_do_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@to_do_item.errors.count, "error") %> prohibited this to_do_item from being saved:</h2>
+
+      <ul>
+      <% @to_do_item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :subject %><br />
+    <%= f.text_field :subject %>
+  </div>
+  <div class="field">
+    <%= f.label :content %><br />
+    <%= f.text_area :content %>
+  </div>
+  <div class="field">
+    <%= f.label :priority %><br />
+    <%= f.select :priority, ToDoItem::PRIORITY, prompt: "Priority" %>
+  </div>
+  <div class="field">
+    <%= f.label 'Remind On' %><br />
+		<%= date_select :to_do_item, :remind_on %>
+		</div>
+		
+		<div class="field">
+    <%= f.label 'Remind At' %><br />
+		<%= time_select :to_do_item, :remind_at, :prompt => {:hour => 'Choose hour', :minute => 'Choose minute', :second => 'Choose seconds'} %>
+		</div>
+  <div class="actions">
+    <%= link_to f.submit %>
+  </div>
+<% end %>

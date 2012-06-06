@@ -1,0 +1,121 @@
+require 'spec_helper'
+describe ToDoListsController , "POST create" do
+	before (:each) do
+		@list = mock_model(ToDoList, :save => true)
+		ToDoList.stub!(:user_id).and_return('1')
+		@params={"name" => 'abc',
+			"priority" => 'High',
+		}
+	end
+	it "renders show when valid" do
+		session[:user_id]='1'
+		post :create , :to_do_list => @params
+		ToDoList.should render_template('show')
+	end	
+	it "renders new when invalid" do
+		session[:user_id]='1'
+		post :create , :to_do_list => {"name" => 'abc', "priority" => 'Higher'}
+		ToDoList.should render_template('new')
+	end	
+	
+	
+	
+end
+
+describe ToDoListsController , "GET index" do
+	before (:each) do
+		@list = mock_model(ToDoList)
+		#ToDoList.stub!(:where).with(:user_id =>1).and_return(@list)
+	end
+		it "redirect_to login if not logged in" do
+			session[:user_id]='101'
+			get :index
+			@list.should redirect_to("/login")
+		end
+	
+		it "renders index if valid" do
+			session[:user_id]='1'
+			get :index
+			@list.should render_template('index')
+		end
+	end
+
+describe ToDoListsController , "GET show" do
+	before (:each) do
+		@list = mock_model(ToDoList)
+	end
+		it "redirect_to to_do_lists_path if list doesn't matches user" do
+			session[:user_id]='1'
+			get :show
+			@list.should redirect_to(to_do_lists_path)
+		end
+		
+		it "redirect_to to_do_lists_path if list doesn't matches user" do
+			session[:user_id]='1'
+			get :show, :id => 1
+			@list.should render_template('show')
+		end
+		it "redirect_to login page if invalid user" do
+			session[:user_id]='101'
+			get :show
+			@list.should redirect_to('/login')
+		end
+	end
+describe ToDoListsController , "GET new" do
+	before(:each) do
+		@list = mock_model(ToDoList)
+		session[:user_id]='1'
+		get :new
+	end
+	it "creates a new list" do
+		@list.should_not be_nil
+	end
+	
+	it "renders the new list page" do
+		@list.should render_template("new")
+	end
+	
+end
+
+describe ToDoListsController , "PUT edit" do
+	before(:each) do
+		@list = mock_model(ToDoList)
+		session[:user_id]='1'
+	end
+	it "redirect_to to_do_lists_path if list isn't found" do
+		put :edit , :id => '101'
+		@list.should redirect_to(to_do_lists_path)
+	end
+	
+	it "redirect_to to_do_lists_path if list is not of current_user" do
+		put :edit , :id => '5'
+		@list.should redirect_to(to_do_lists_path)
+	end
+	it "renders the edit list page if valid" do
+		put :edit , :id => '1'
+		@list.should render_template("edit")
+	end
+	
+end
+
+describe ToDoListsController , "DELETE destroy" do
+	before(:each) do
+		@list = mock_model(ToDoList)
+		session[:user_id]='1'
+	end
+	it "sets flash if list is found" do
+		delete :destroy , :id => '1'
+		flash.now[:notice].should_not be_nil
+	end
+	it "Doesn't sets flash if list isn't found" do
+		delete :destroy , :id => '101'
+		flash[:notice].should be_nil
+	end
+	it "Should redirect_to to_do_lists_path " do
+		delete :destroy , :id => '101'
+		@list.should redirect_to(to_do_lists_path)
+	end
+	
+end
+
+

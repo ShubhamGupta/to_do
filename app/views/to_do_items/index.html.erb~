@@ -1,0 +1,24 @@
+<h1>Listing to_do_items</h1>
+
+<table>
+  <tr>
+    <th>Subject</th>
+    <th>Remind On</th>
+    <th>Remind At</th>
+    <th>Actions</th>
+  </tr>
+
+<% @to_do_items.each do |to_do_item| %>
+	<tr>
+		<td><%= to_do_item.subject %></td>
+		<td><%= to_do_item.remind_on %></td>
+		<td><%= to_do_item.remind_at %></td>
+		<td><%= link_to 'Show', to_do_item %>|</td>
+    <td><%= link_to 'Edit', edit_to_do_item_path(to_do_item) %>|</td>
+    <td><%= link_to 'Destroy', confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+<%= link_to 'Add Item', new_to_do_item_path %>
+<%= link_to 'Back', to_do_lists_path %>

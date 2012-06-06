@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @to_do_item.subject %></h1>
+
+<div>
+<%= @to_do_item.content %>
+</div>
+<hr/>
+<div>
+<%= @to_do_item.remind_on %>
+<%= @to_do_item.remind_at %>
+</div>
+
+<%= link_to 'Edit', edit_to_do_item_path(@to_do_item) %> |
+
+<%= link_to 'Back', to_do_list_to_do_items_path(@to_do_item.to_do_list_id) %>
