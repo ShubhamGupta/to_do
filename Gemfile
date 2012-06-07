@@ -23,7 +23,7 @@ group :development, :test do
 	gem "rspec-rails", ">= 2.0.0"
 	gem "webrat", ">= 0.7.2"
 end
-
+gem 'whenever', :require => false
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
