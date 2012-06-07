@@ -1,5 +1,0 @@
-<h1>New to_do_list</h1>
-<%= form_for(@to_do_list, :url=> users_path) do |f| %> 
-<%= render 'form' %>
-<% end %>
-<%= link_to 'Back', to_do_lists_path %>

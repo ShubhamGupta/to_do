@@ -1,2 +1,0 @@
-<h1>You are logged out</h1>
-<p>click <%= link_to "Here" ,action: 'new' %> to login again</p>
