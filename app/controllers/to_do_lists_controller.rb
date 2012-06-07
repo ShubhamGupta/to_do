@@ -72,7 +72,7 @@ class ToDoListsController < ApplicationController
     end
   end
 
-  # PUT /to_do_lists/1
+# PUT /to_do_lists/1
   # PUT /to_do_lists/1.json
   def update
   	begin

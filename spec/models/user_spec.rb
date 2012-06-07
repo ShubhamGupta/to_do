@@ -30,4 +30,7 @@ describe User	do
 	it "should not authenticate if username and password doesn't matches" do
 		User.authenticate_user('abcd','123456').should be_false
 	end
+	it "has many lists" do
+		
+	end
 end
