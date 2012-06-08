@@ -1,15 +1,11 @@
 class DropDefaultOnSubjectAndContent < ActiveRecord::Migration
   def up
-		change_table :to_do_items do |t|
-		  t.change :subject, :string
-		  t.change :content, :string
-		end
+	  change_column_default(:to_do_items, :subject, nil)
+	  change_column_default(:to_do_items, :content, nil)
   end
 
   def down
-  change_table :to_do_items do |t|
-	  t.change :subject, :string, :default => ''
-	  t.change :content, :string, :default => ''
-	  end
+	  change_column_default(:to_do_items, :subject, "")
+	  change_column_default(:to_do_items, :content, "")
   end
 end
