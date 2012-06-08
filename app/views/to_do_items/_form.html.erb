@@ -1,16 +1,6 @@
 <%= form_for([@to_do_list,@to_do_item]) do |f| %>
 
-  <% if @to_do_item.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@to_do_item.errors.count, "error") %> prohibited this to_do_item from being saved:</h2>
-
-      <ul>
-      <% @to_do_item.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= errors_for(@to_do_item, 'cant create the item').html_safe %>
   <div class="field">
     <%= f.label :subject %><br />
     <%= f.text_field :subject %>
@@ -25,12 +15,12 @@
   </div>
   <div class="field">
     <%= f.label 'Remind On' %><br />
-		<%= date_select :to_do_item, :remind_on %>
+		<%= date_select :to_do_item, :remind_on, :prompt => {:year => 'Choose year', :month => 'Choose month', :day => 'Choose day'}, :default => nil %>
 		</div>
 		
 		<div class="field">
     <%= f.label 'Remind At' %><br />
-		<%= time_select :to_do_item, :remind_at, :prompt => {:hour => 'Choose hour', :minute => 'Choose minute', :second => 'Choose seconds'} %>
+		<%= time_select :to_do_item, :remind_at, :prompt => {:hour => 'Choose hour', :minute => 'Choose minute', :second => 'Choose seconds'}, :default => nil %>
 		</div>
   <div class="actions">
     <%= f.submit %>
