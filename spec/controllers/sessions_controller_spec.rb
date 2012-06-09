@@ -29,9 +29,15 @@ describe SessionsController, "POST create" do
 end
 
 describe SessionsController, "DELETE destroy" do
-	@ses = SessionsController.new
+	before(:each) do
+		@ses = SessionsController.new
+	end
 	it "sets user_id in session to nil" do
-		delete :destroy
+		get :destroy
 		session[:user_id].should be_nil
+	end
+	it "redirects to login page" do
+		get :destroy
+		@ses.should redirect_to('/login')
 	end
 end

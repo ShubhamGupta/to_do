@@ -8,11 +8,11 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div id="logout">
-		
-  	<%= link_to ' Logout ', :controller => 'sessions', :action => 'destroy' %>
+<% if logged_in? %>
+	<div id="logout">
+		<%= link_to ' Logout ', :controller => 'sessions', :action => 'destroy' %>
   </div>
-  
+  <% end %>
 
  
 <%= yield %>

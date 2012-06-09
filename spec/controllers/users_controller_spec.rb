@@ -75,4 +75,12 @@ describe UsersController , "GET new" do
 		@user.should render_template("new")
 	end
 end
-
+describe UsersController, "GET edit" do
+	it "renders edit" do
+		@user = mock_model(User)
+		User.stub!(:find).and_return(@user)
+		controller.stub!(:current_user).and_return(@user)
+		get :edit
+		@user.should render_template('edit')
+	end
+end

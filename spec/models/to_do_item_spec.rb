@@ -6,9 +6,9 @@ describe ToDoItem	do
 	it "is valid with valid attributes" do
 		@to_do_item.should be_valid
 	end	
-	it "is valid if subject is not present" do
+	it "is invalid if subject is not present" do
 		@to_do_item.subject = nil
-		@to_do_item.should be_valid
+		@to_do_item.should_not be_valid
 	end
 	it "is valid if content is not present" do
 		@to_do_item.content = ""

@@ -18,7 +18,26 @@ describe ToDoListsController , "POST create" do
 		ToDoList.should render_template('new')
 	end	
 end
-
+describe ToDoListsController, "PUT update" do
+	before(:each) do
+		@list = mock_model(ToDoList)
+		ToDoList.stub!(:find).and_return(@list)
+		user = mock_model(User)
+		lists = mock_model(ToDoList)
+		ToDoList.stub!(:where).and_return(lists)
+		controller.stub!(:current_user).and_return(user)
+	end
+	it "redirect_to index if valid" do
+		@list.stub!(:update_attributes).and_return(true)
+		put :update
+		@list.should redirect_to(:action => 'index')
+	end
+	it "redirect_to index if valid" do
+		@list.stub!(:update_attributes).and_return(false)
+		put :update
+		@list.should render_template(:action => 'edit')
+	end
+end
 describe ToDoListsController , "GET index" do
 	before (:each) do
 		@list = mock_model(ToDoList)
@@ -111,9 +130,9 @@ describe ToDoListsController , "DELETE destroy" do
 		delete :destroy , :id => '1'
 		flash.now[:notice].should_not be_nil
 	end
-	it "Doesn't sets flash if list isn't found" do
+	it "Sets flash if list isn't found" do
 		delete :destroy , :id => '101'
-		flash[:notice].should be_nil
+		flash[:notice].should_not be_nil
 	end
 	it "Should redirect_to to_do_lists_path " do
 		delete :destroy , :id => '101'

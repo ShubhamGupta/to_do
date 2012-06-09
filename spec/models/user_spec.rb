@@ -1,8 +1,8 @@
 require 'spec_helper'
 describe User	do
 	before(:each) do
-		@user = User.new(:first_name => 'a', :last_name  => 'b', :user_name => 'abcdefs', :email_id => 'shubham_mait89@yahoo.com', :password => '782163782163871')
-		
+		@user = User.new(:first_name => 'a', :last_name  => 'b', :user_name => 'abcdefs', :email_id => 'shuam_mait89@yahoo.com', :password => '782163782163871')
+			
 	end
 	it "is valid with valid attributes" do
 		@user.should be_valid
@@ -25,12 +25,15 @@ describe User	do
 		@user.should_not be_valid
 	end
 	it "should authenticate if username and password matches" do
-		User.authenticate_user('Shubham','123456').should be_true
+		User.authenticate_user('hitch','123456').should be_true
 	end
 	it "should not authenticate if username and password doesn't matches" do
 		User.authenticate_user('abcd','123456').should be_false
 	end
-	it "has many lists" do
-		
+	it "Encrypts password" do
+		p1 = @user.password
+		@user.encrypt_password
+		@user.password.should_not be_equal(p1)
 	end
 end
+

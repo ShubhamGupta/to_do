@@ -1,17 +1,48 @@
 require 'spec_helper'
 describe ToDoItemsController , "POST create" do
 	before (:each) do
-		@item = mock_model(ToDoItem, :save => true)
+		@item = mock_model(ToDoItem)
+		user = mock_model(User)
 		ToDoItem.stub!(:user_id).and_return('1')
-		@params={"subject" => 'abc',
-			"content" => 'xyz',
-			"remind_on" => '2012-01-01',
-			"remind_at" => '11:11:11',
-			"priority" => 'High'
-		}
+		@list = mock_model(ToDoList)
+		ToDoList.stub!(:find).and_return(@list)
+		ToDoItem.stub!(:create).and_return(@item)
+		@item.stub!(:to_do_list_id=).with("1")
+		controller.stub!(:current_user).and_return(user)#VIMP!!! stubing :before of controller
 	end
-	
+	it "redirects to lists path when valid" do
+		@item.stub!(:save).and_return(true)
+		post :create , :to_do_list_id => 1 
+		ToDoList.should redirect_to('/to_do_lists/1/to_do_items')
+	end
+	it "renders new when invalid" do
+		@item.stub!(:save).and_return(false)
+		post :create , :to_do_list_id =>1
+		ToDoList.should render_template('new')
+	end
 end
+
+describe ToDoItemsController, "PUT update" do
+	before(:each) do
+		@list = mock_model(ToDoList)
+		user = mock_model(User) 
+		@item = mock_model(ToDoItem)
+		ToDoItem.stub!(:find).and_return(@item)
+		ToDoList.stub!(:find).and_return(@list)
+		controller.stub!(:current_user).and_return(user)#VIMP!!! stubing :before of controller
+	end
+	it "redirects to index if update is successful" do
+		@item.stub!(:update_attributes).and_return(true)
+		put :update
+		@item.should redirect_to(action: 'index')
+	end
+	it "redirects to index if update is successful" do
+		@item.stub!(:update_attributes).and_return(false)
+		put :update
+		@item.should render_template('edit')
+	end
+end
+
 
 describe ToDoItemsController, "GET index" do
 	it "redirect_to corresponding list" do
@@ -29,6 +60,10 @@ describe ToDoItemsController, "GET show" do
 	it "redirect_to to_do_lists_path if item is invalid" do
 		get :show , :to_do_list_id => 101
 		@to_do_item.should redirect_to(to_do_lists_path)
+	end
+	it "shows flash message if invalid" do
+		get :show , :to_do_list_id => 101
+		flash[:notice].should_not be_nil
 	end
 	it "redirect_to login page if user is not logged in" do
 		session[:user_id]=1786
@@ -60,39 +95,43 @@ describe ToDoItemsController, "GET new" do
 	end
 end
 
-describe ToDoItemsController , "PUT edit" do
+describe ToDoItemsController , "GET edit" do
 	before(:each) do
 		@item = mock_model(ToDoItem)
 		session[:user_id]='1'
 	end
 	it "redirect_to to_do_lists_path if list isn't found" do
-		put :edit , :id => '39', :to_do_list_id => 100
+		get :edit , :id => '39', :to_do_list_id => 100
 		@item.should redirect_to(to_do_lists_path)
 	end
 	
 	it "redirect_to to_do_lists_path if item isn't found" do
-		put :edit , :id => '30', :to_do_list_id => 1
+		get :edit , :id => '30', :to_do_list_id => 1
 		@item.should redirect_to(to_do_lists_path)
 	end
 	
 	it "redirect_to index if list doesnt belong to current_user" do
-		put :edit , :id => '40', :to_do_list_id => 1
+		get :edit , :id => '40', :to_do_list_id => 1
 		@item.should redirect_to(to_do_lists_path)
 	end
 	it "renders edit if valid" do
-		put :edit , :id => '39', :to_do_list_id => 1
+		get :edit , :id => '39', :to_do_list_id => 1
 		@item.should render_template('edit')
 	end
 end
 
-describe ToDoListsController , "DELETE destroy" do
+describe ToDoItemsController , "DELETE destroy" do
 	before(:each) do
 		@item = mock_model(ToDoItem)
-		session[:user_id]='1'
+		ToDoItem.stub!(:find).and_return(@item)
+		user = mock_model(User)
+		@item.stub!(:destroy).and_return(true)
+		controller.stub!(:current_user).and_return(user)#VIMP!!! stubing :before of controller
 	end
-	it "renders index if invalid" do
-		delete :destroy, :id => 392
-		@item.should redirect_to to_do_lists_path
+	it "renders index" do
+		delete :destroy#, :id => 392
+		@item.should redirect_to  :action => 'index'
 	end	
 	
 end
+

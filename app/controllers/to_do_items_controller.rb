@@ -3,10 +3,12 @@ class ToDoItemsController < ApplicationController
   # GET /to_do_items.json
   before_filter :current_user
   rescue_from ActiveRecord::RecordNotFound, :with => :redirect_if_not_found
+  private
   def redirect_if_not_found
   	@user = current_user
   	redirect_to to_do_lists_path, notice: 'Requested resource does not exists.'
   end
+  public
   def index
 		redirect_to to_do_list_path(params[:to_do_list_id])# todolist => show action being called
 	end
@@ -48,7 +50,6 @@ class ToDoItemsController < ApplicationController
   	@to_do_list = ToDoList.find(params[:to_do_list_id])
     @to_do_item = ToDoItem.create(params[:to_do_item])
 		@to_do_item.to_do_list_id = params[:to_do_list_id] 
-#		render text: params		
     respond_to do |format|
       if @to_do_item.save
         format.html { redirect_to to_do_list_to_do_items_path(@to_do_item.to_do_list_id), notice: 'To do item was successfully created.' }
@@ -71,7 +72,7 @@ class ToDoItemsController < ApplicationController
     @to_do_item = ToDoItem.find(params[:id])
 		respond_to do |format|
       if @to_do_item.update_attributes(params[:to_do_item])
-        format.html { redirect_to to_do_list_to_do_items_path(@to_do_item.to_do_list_id), notice: 'To do item was successfully updated.' }
+        format.html { redirect_to action: 'index' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -89,7 +90,7 @@ class ToDoItemsController < ApplicationController
     	@to_do_item = ToDoItem.find(params[:id])
     	@to_do_item.destroy
 			respond_to do |format|
-      	format.html { redirect_to to_do_list_to_do_items_path(@to_do_item.to_do_list_id)}
+      	format.html { redirect_to :action => 'index', :to_do_list_id => @to_do_item.to_do_list_id} #to_do_list_to_do_items_path(@to_do_item.to_do_list_id)}
       	format.json { head :no_content }
     	end
   end
