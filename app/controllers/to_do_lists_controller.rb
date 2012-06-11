@@ -21,7 +21,7 @@ class ToDoListsController < ApplicationController
 		  respond_to do |format|
 		    format.html # show.html.erb
 		    format.json { render json: @to_do_list }
-		    end
+		  end
 		else
 		 	redirect_to to_do_lists_path
 		end

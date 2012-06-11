@@ -37,11 +37,12 @@ describe ToDoItemsController, "PUT update" do
 		put :update
 		@item.should redirect_to(action: 'index')
 	end
-	it "redirects to index if update is successful" do
+	it "renders edit if update is not successful" do
 		@item.stub!(:update_attributes).and_return(false)
 		put :update
 		@item.should render_template('edit')
 	end
+	
 end
 
 

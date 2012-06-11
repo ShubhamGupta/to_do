@@ -52,8 +52,6 @@ class ToDoItemsController < ApplicationController
   # PUT /to_do_items/1
   # PUT /to_do_items/1.json
   def update
- # render text: "HERE"
-  begin
     @to_do_list = ToDoList.find(params[:to_do_list_id])
     @to_do_item = ToDoItem.find(params[:id])
 		respond_to do |format|
@@ -65,9 +63,6 @@ class ToDoItemsController < ApplicationController
         format.json { render json: @to_do_item.errors, status: :unprocessable_entity }
       end
     end
-   rescue ActiveRecord::RecordNotFound
-   	 redirect_to action: 'index'
-   end
   end
 
   # DELETE /to_do_items/1

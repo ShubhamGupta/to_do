@@ -62,11 +62,12 @@ describe ToDoListsController , "GET index" do
 describe ToDoListsController , "GET show" do
 	before (:each) do
 		@list = mock_model(ToDoList)
-		
+		@list.stub!(:user_id).and_return 1
+		ToDoList.stub!(:find).and_return(@list)
 	end
 		it "redirect_to to_do_lists_path if list doesn't matches user" do
 			#session[:user_id]='1'
-			user = mock_model(User, :id => '1')
+			user = mock_model(User, :id => '2')
 			controller.stub!(:current_user).and_return(user)#VIMP!!! stubing :before of controller
 			get :show
 			@list.should redirect_to(to_do_lists_path)
@@ -74,10 +75,6 @@ describe ToDoListsController , "GET show" do
 		
 		it "render show if valid" do
 			list = mock_model(ToDoList)
-#			list.user_id =1
-#			ToDoList.stub!(:find).and_return(list)
-#			user = mock_model(User, :id => '1')
-#			controller.stub!(:current_user, :id =>1).and_return(user)#VIMP!!! stubing :before of controller
 			session[:user_id]='1'
 			get :show, :id => '1'
 			@list.should render_template('show')
