@@ -2,22 +2,23 @@ require 'spec_helper'
 describe ToDoItemsController , "POST create" do
 	before (:each) do
 		@item = mock_model(ToDoItem)
+		items = mock_model(ToDoItem)
 		user = mock_model(User)
-		ToDoItem.stub!(:user_id).and_return('1')
 		@list = mock_model(ToDoList)
+		@list.stub!(:to_do_items).and_return items
+		items.stub!(:build)
 		ToDoList.stub!(:find).and_return(@list)
-		ToDoItem.stub!(:create).and_return(@item)
-		@item.stub!(:to_do_list_id=).with("1")
+		ToDoItem.stub!(:new).and_return(@item)
 		controller.stub!(:current_user).and_return(user)#VIMP!!! stubing :before of controller
 	end
 	it "redirects to lists path when valid" do
-		@item.stub!(:save).and_return(true)
+		@list.stub!(:save).and_return(true)
 		post :create , :to_do_list_id => 1 
 		ToDoList.should redirect_to('/to_do_lists/1/to_do_items')
 	end
 	it "renders new when invalid" do
-		@item.stub!(:save).and_return(false)
-		post :create , :to_do_list_id =>1
+		@list.stub!(:save).and_return(false)
+		post :create# , :to_do_list_id =>1
 		ToDoList.should render_template('new')
 	end
 end

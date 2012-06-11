@@ -47,22 +47,6 @@ describe UsersController , "GET show " do
 	end
 end
 
-
-describe UsersController , "GET index " do
-	before (:each) do
-		@user = mock_model(User)
-	end
-	it 'renders new if user is not logged in' do
-		session[:user_id]='101'
-		get :index
-		User.should redirect_to(controller: 'sessions', action: 'new')	
-	end
-	it 'renders show if user is logged in' do
-		controller.stub!(:current_user).and_return(@user)#VIMP!!! stubing :before of controller
-		get :index
-		User.should render_template('show')	
-	end
-end
 describe UsersController , "GET new" do
 	before(:each) do
 		@user = mock_model(User)

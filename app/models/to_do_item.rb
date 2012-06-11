@@ -3,4 +3,7 @@ class ToDoItem < ActiveRecord::Base
   belongs_to :to_do_list
   validates :priority, inclusion: PRIORITY
   validates :subject, :length => {:maximum => 255}, presence: true
+  def belongs_to_current_user?(curr_user)
+  	self.to_do_list.user_id == curr_user.id
+  end
 end

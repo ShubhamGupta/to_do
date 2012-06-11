@@ -24,15 +24,17 @@ describe ToDoListsController, "PUT update" do
 		ToDoList.stub!(:find).and_return(@list)
 		user = mock_model(User)
 		lists = mock_model(ToDoList)
+		@list.stub!(:belongs_to_current_user?).and_return true
 		ToDoList.stub!(:where).and_return(lists)
 		controller.stub!(:current_user).and_return(user)
 	end
 	it "redirect_to index if valid" do
+		
 		@list.stub!(:update_attributes).and_return(true)
 		put :update
 		@list.should redirect_to(:action => 'index')
 	end
-	it "redirect_to index if valid" do
+	it "redirect_to edit if invalid" do
 		@list.stub!(:update_attributes).and_return(false)
 		put :update
 		@list.should render_template(:action => 'edit')
@@ -128,7 +130,7 @@ describe ToDoListsController , "DELETE destroy" do
 	end
 	it "sets flash if list is found" do
 		delete :destroy , :id => '1'
-		flash.now[:notice].should_not be_nil
+		flash.now[:notice].should be_nil
 	end
 	it "Sets flash if list isn't found" do
 		delete :destroy , :id => '101'

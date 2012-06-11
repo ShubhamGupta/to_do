@@ -30,14 +30,12 @@ end
 
 describe SessionsController, "DELETE destroy" do
 	before(:each) do
-		@ses = SessionsController.new
+		@user = mock_model(User)
 	end
-	it "sets user_id in session to nil" do
-		get :destroy
-		session[:user_id].should be_nil
-	end
-	it "redirects to login page" do
-		get :destroy
-		@ses.should redirect_to('/login')
-	end
+	  it "should set user_id in session to nil and redirect to login page" do
+    User.should_receive(:find).and_return(@user)
+    delete :destroy
+    session[:user_id].should be_nil
+    response.should redirect_to('/login')
+  end
 end
