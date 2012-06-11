@@ -14,14 +14,14 @@
 ActiveRecord::Schema.define(:version => 20120608101750) do
 
   create_table "to_do_items", :force => true do |t|
+    t.string   "subject"
+    t.text     "content"
     t.string   "priority"
     t.date     "remind_on"
     t.time     "remind_at"
     t.integer  "to_do_list_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
-    t.string   "subject"
-    t.string   "content"
   end
 
   create_table "to_do_lists", :force => true do |t|
