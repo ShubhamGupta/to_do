@@ -9,6 +9,7 @@ describe SessionsController, "Sessions Controller" do
 end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 describe SessionsController, "DELETE destroy" do
 	before(:each) do
 		@user = mock_model(User)
@@ -19,6 +20,8 @@ describe SessionsController, "DELETE destroy" do
     session[:user_id].should be_nil
     response.should redirect_to('/login')
 =======
+=======
+>>>>>>> 897533cff379cf954596d4a75d7aca3e087e2b0f
 describe SessionsController, "Session Controller" do
   before(:each) do
     @user = mock_model(User)
@@ -38,6 +41,22 @@ describe SessionsController, "Session Controller" do
     post :create, :user_name => "Shubham", :password => '123'
     flash[:notice].should == "Invalid User Name or Password"
     response.should redirect_to :action => :new
+<<<<<<< HEAD
+>>>>>>> 897533cff379cf954596d4a75d7aca3e087e2b0f
+  end
+end
+
+describe SessionsController, "Session Controller" do
+  before(:each) do
+    @user = mock_model(User)
+  end
+  
+  it "should sets user_id in session to nil and redirect to login page ie; allows user to log-out on clicking logout link" do
+    User.should_receive(:find).and_return(@user)
+    delete :destroy
+    session[:user_id].should be_nil
+    response.should redirect_to('/login')
+=======
 >>>>>>> 897533cff379cf954596d4a75d7aca3e087e2b0f
   end
 end
