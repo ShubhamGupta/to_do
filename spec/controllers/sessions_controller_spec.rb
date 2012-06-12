@@ -18,7 +18,8 @@ describe SessionsController, "DELETE destroy" do
     delete :destroy
     session[:user_id].should be_nil
     response.should redirect_to('/login')
-
+end
+end
 describe SessionsController, "Session Controller" do
   before(:each) do
     @user = mock_model(User)
